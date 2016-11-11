@@ -38,7 +38,7 @@ Examples:
 
 ## GlobWatch as a .NET Core tool
 
-Define the tool and add a script:
+Define the tool:
 
 ```javascript
 {
@@ -50,13 +50,14 @@ Define the tool and add a script:
 }
 ```
 
-Restore the project
+Restore the project:
 
 ```
 dotnet restore
 ```
 
-Run the application
+Run the application:
+
 ```
 dotnet globwatch ...
 ```
