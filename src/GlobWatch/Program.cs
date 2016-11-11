@@ -68,7 +68,7 @@ namespace GlobWatch {
                     @out.WriteLine($"  - {i.Red().Bold()}");
             }
 
-            @out.WriteLine($"- Inside: {dir.Bold()}");
+            @out.WriteLine($"- Inside: {dir.Cyan()}");
 
             if (config.IgnoreCase)
                 @out.WriteLine("- Ignore Case");
@@ -83,13 +83,13 @@ namespace GlobWatch {
                     events = events == null ? "Deleted" : $"{events}, deleted";
                 if (config.WatchedEvents.HasFlag(WatcherChangeTypes.Renamed))
                     events = events == null ? "Renamed" : $"{events}, renamed";
-                @out.WriteLine($"- For events of type: {events.Bold()}");
+                @out.WriteLine($"- For events of type: {events.Cyan()}");
             }
 
-            @out.WriteLine($"- Using command: {config.Command.Bold()}\n");
+            @out.WriteLine($"- Using command: {config.Command.Cyan()}\n");
 
             if (workDir != dir)
-                @out.WriteLine($"- In working directory: {workDir.Bold()}");
+                @out.WriteLine($"- In working directory: {workDir.Cyan()}");
         }
 
     }

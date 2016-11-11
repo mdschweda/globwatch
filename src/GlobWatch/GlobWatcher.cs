@@ -45,80 +45,57 @@ namespace GlobWatch {
         /// <returns>A <see cref="Task"/> that represent the watching process.</returns>
         public async Task Watch(CancellationToken cancellationToken) {
             try {
-                while (true) {
-                    var t1 = WaitForChange(cancellationToken);
-                    var t2 = Task.Delay(Timeout.InfiniteTimeSpan, cancellationToken);
+                var watcher = new FileSystemWatcher(_dir) {
+                    IncludeSubdirectories = true
+                };
 
-                    await Task.WhenAny(t1, t2);
+                cancellationToken.Register(() => watcher?.Dispose());
 
-                    if (cancellationToken.IsCancellationRequested)
-                        throw new TaskCanceledException();
+                if (_events.HasFlag(WatcherChangeTypes.Created))
+                    watcher.Created += OnWatcherFileSystemEvent;
 
-                    if (t1.Status == TaskStatus.RanToCompletion)
-                        if (_matcher.Test(t1.Result.Name))
-                            Changed?.Invoke(this, t1.Result);
-                }
+                if (_events.HasFlag(WatcherChangeTypes.Changed))
+                    watcher.Changed += OnWatcherFileSystemEvent;
+
+                if (_events.HasFlag(WatcherChangeTypes.Deleted))
+                    watcher.Deleted += OnWatcherFileSystemEvent;
+
+                if (_events.HasFlag(WatcherChangeTypes.Renamed))
+                    watcher.Renamed += OnWatcherRenameEvent;
+
+                watcher.EnableRaisingEvents = true;
+
+                await Task.Delay(Timeout.Infinite, cancellationToken);
             } catch (TaskCanceledException) {
                 Console.WriteLine("Stopping by request...");
             }
         }
 
-        // Wait for a single change
-        Task<WaitForChangedResult> WaitForChange(CancellationToken cancellationToken) {
-            var tcs = new TaskCompletionSource<WaitForChangedResult>();
-
-
-            var watcher = new FileSystemWatcher(_dir) {
-                IncludeSubdirectories = true
-            };
-
-            cancellationToken.Register(() => {
-                watcher?.Dispose();
-                tcs.TrySetCanceled();
-            });
-
-            if (_events.HasFlag(WatcherChangeTypes.Created))
-                watcher.Created += (s, e) => {
-                    tcs.TrySetResult(new WaitForChangedResult {
-                        ChangeType = e.ChangeType,
-                        Name = e.Name
-                    });
-
-                    watcher.Dispose();
-                };
-
-            if (_events.HasFlag(WatcherChangeTypes.Changed))
-                watcher.Changed += (s, e) =>
-                    tcs.TrySetResult(new WaitForChangedResult {
-                        ChangeType = e.ChangeType,
-                        Name = e.Name
-                    });
-
-            if (_events.HasFlag(WatcherChangeTypes.Renamed))
-                watcher.Renamed += (s, e) => {
-                    tcs.TrySetResult(new WaitForChangedResult {
+        private void OnWatcherRenameEvent(object sender, RenamedEventArgs e) {
+            if (_matcher.Test(e.Name))
+                Changed?.Invoke(
+                    this,
+                    new WaitForChangedResult {
                         ChangeType = e.ChangeType,
                         Name = e.Name,
                         OldName = e.OldName
-                    });
+                    }
+                );
+        }
 
-                    watcher.Dispose();
-                };
-
-            if (_events.HasFlag(WatcherChangeTypes.Deleted))
-                watcher.Deleted += (s, e) => {
-                    tcs.TrySetResult(new WaitForChangedResult {
+        private void OnWatcherFileSystemEvent(object sender, FileSystemEventArgs e) {
+            if (_matcher.Test(e.Name))
+                Changed?.Invoke(
+                    this,
+                    new WaitForChangedResult {
                         ChangeType = e.ChangeType,
                         Name = e.Name
-                    });
-
-                    watcher.Dispose();
-                };
-
-            watcher.EnableRaisingEvents = true;
-            return tcs.Task;
+                    }
+                );
         }
 
     }
+
+
 
 }

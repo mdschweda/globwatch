@@ -52,10 +52,28 @@ namespace GlobWatch {
             var tokens = _config.Command
                 .Split(new[] { ' ' }, 2, StringSplitOptions.RemoveEmptyEntries);
 
+            string @event = null;
+
+            switch (e.ChangeType) {
+                case WatcherChangeTypes.Created:
+                    @event = "created";
+                    break;
+                case WatcherChangeTypes.Changed:
+                    @event = "modified";
+                    break;
+                case WatcherChangeTypes.Deleted:
+                    @event = "deleted";
+                    break;
+                case WatcherChangeTypes.Renamed:
+                    @event = "renamed";
+                    break;
+            }
+
             var cmd = tokens[0];
             var args = tokens.Skip(1)
                 .FirstOrDefault()
-                ?.Replace("%pathBefore", e.OldName)
+                ?.Replace("%event", @event)
+                .Replace("%pathBefore", e.OldName)
                 .Replace("%path", e.Name);
 
             var process = new Process() {

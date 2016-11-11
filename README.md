@@ -24,7 +24,7 @@ Options:
   -w|--workdir      The work directory of the executed command. The default default is the directory where the changed occured.
   -ic|--ignorecase  Specifies that the search is case insensitive.
 
-Placeholders %path and %pathBefore are available inside your command argument.
+Placeholders %path, %pathBefore and %event are available inside your command argument.
 
 Return values:
   0 - Execution aborted by user
@@ -44,7 +44,7 @@ Define the tool:
 {
 
   "tools": {
-    "GlobWatch": "1.0.0"
+    "GlobWatch": "1.0.1"
   }
 
 }
@@ -68,7 +68,7 @@ dotnet globwatch ...
 {
 
   "tools": {
-    "GlobWatch": "1.0.0"
+    "GlobWatch": "1.0.1"
   },
 
   "scripts": {

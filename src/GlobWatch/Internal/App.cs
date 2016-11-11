@@ -22,7 +22,7 @@ namespace GlobWatch.Internal {
                 FullName = "Glob pattern path watcher",
                 Description = "Watches the file system using glob patterns and runs commands on changes.",
                 ExtendedHelpText = @"
-Placeholders %path and %pathBefore are available inside your command argument.
+Placeholders %path, %pathBefore and %event are available inside your command argument.
 
 Return values:
   0 - Execution aborted by user
@@ -33,7 +33,7 @@ Examples:
   globwatch ""cmd.exe /c echo %path""
   globwatch ""minify %path"" -i **/*.css|**/*.js -e cm -ic",
                 ShortVersionGetter = () => "1.0",
-                LongVersionGetter = () => "1.0.0"
+                LongVersionGetter = () => "1.0.1"
             };
 
             Current.Argument("command", "The command to run.", true);

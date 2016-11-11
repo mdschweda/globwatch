@@ -2,7 +2,7 @@
   "title": "GlobWatch",
   "description": "GlobWatch is a .NET Core file system watcher that runs commands on changes.",
   "copyright": "Copyright © 2016 Marcus Schweda",
-  "version": "1.0.0-*",
+  "version": "1.0.1-*",
   "authors": [ "Marcus Schweda" ],
 
   "buildOptions": {
