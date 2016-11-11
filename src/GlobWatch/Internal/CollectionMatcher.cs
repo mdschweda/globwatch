@@ -16,7 +16,7 @@ namespace GlobWatch.Internal {
         /// Initializes a new instance of the <see cref="PatternMatcher"/> class.
         /// </summary>
         /// <param name="includes">The collection of glob patterns for paths to include.</param>
-        /// <param name="excludes">The collection of glob patterns for exceptions to <paramref name="include"/>.</param>
+        /// <param name="excludes">The collection of glob patterns for exceptions to <paramref name="includes"/>.</param>
         /// <param name="ignoreCase"><c>True</c> to ignore case during path tests; otherwise <c>false</c>.</param>
         internal PatternMatcher(IEnumerable<string> includes, IEnumerable<string> excludes, bool ignoreCase) {
             if (!(includes?.Any() ?? false))

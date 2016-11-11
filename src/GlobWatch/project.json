@@ -1,12 +1,12 @@
 {
-  "title": "globwatch",
-  "description": "Glob pattern path watcher",
+  "title": "GlobWatch",
+  "description": "GlobWatch is a .NET Core file system watcher that runs commands on changes.",
   "copyright": "Copyright © 2016 Marcus Schweda",
   "version": "1.0.0-*",
   "authors": [ "Marcus Schweda" ],
 
   "buildOptions": {
-    //"outputName": "dotnet-globwatch"
+    "outputName": "dotnet-globwatch",
     "emitEntryPoint": true,
     "xmlDoc": true
   },
@@ -15,7 +15,10 @@
     "repository": {
       "type": "git",
       "url": "https://github.com/mdschweda/globwatch"
-    }
+    },
+    "licenseUrl": "https://github.com/mdschweda/globwatch/blob/master/LICENSE",
+    "projectUrl": "https://github.com/mdschweda/globwatch",
+    "summary": "GlobWatch is a .NET Core file system watcher that runs commands on changes."
   },
 
   "dependencies": {

@@ -1,12 +1,12 @@
-﻿# Globwatch
+﻿# GlobWatch
 
 ```
  ,——._.,——,—.
-( @ ) ( @ )  \  [globwatch]
+( @ ) ( @ )  \  [GlobWatch]
  `—´   `—´
 ```
 
-Globwatch is a .NET Core file system watcher that runs commands on changes.
+GlobWatch is a .NET Core file system watcher that runs commands on changes.
 
 ## Command line help
 
@@ -34,4 +34,46 @@ Return values:
 Examples:
   globwatch "cmd.exe /c echo %path"
   globwatch "minify %path" -i **/*.css|**/*.js -e cm -ic
+```
+
+## GlobWatch as a .NET Core tool
+
+Define the tool and add a script:
+
+```javascript
+{
+
+  "tools": {
+    "GlobWatch": "1.0.0"
+  }
+
+}
+```
+
+Restore the project
+
+```
+dotnet restore
+```
+
+Run the application
+```
+dotnet globwatch ...
+```
+
+## GlobWatch inside a .NET Core script
+
+```javascript
+{
+
+  "tools": {
+    "GlobWatch": "1.0.0"
+  },
+
+  "scripts": {
+    // Example: will echo modified *.cs files under Windows
+    "echochanges": "dotnet globwatch cmd.exe /c echo %file -i **/*.cs -e m"
+  }
+
+}
 ```

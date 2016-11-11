@@ -8,9 +8,9 @@ using Microsoft.DotNet.Cli.Utils;
 
 namespace GlobWatch {
 
-    public class Program {
+    class Program {
 
-        public static int Main(string[] args) {
+        static int Main(string[] args) {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
             App.Current.OnExecute(async () => 
@@ -54,7 +54,7 @@ namespace GlobWatch {
             
             @out.WriteLine(
                 "  ,——._.,——,—.\n" +
-                " ( @ ) ( @ )  \\  [globwatch]\n" +
+                " ( @ ) ( @ )  \\  [GlobWatch]\n" +
                 "  `—´   `—´\n"
             );
 
